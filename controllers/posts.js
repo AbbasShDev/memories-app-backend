@@ -67,6 +67,7 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  console.log(req.userId);
   if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -77,13 +78,22 @@ export const likePost = async (req, res) => {
 
     if (!post) return res.status(404).json({ error: "Post not found" });
 
-    const index = post.likes.findIndex((id) => id === req.userId);
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+
+    console.log(post.likes);
 
     if (index === -1) {
       post.likes.push(req.userId);
     } else {
-      post.likes.filter((id) => id !== String(req.userId));
+      post.likes.splice(index, 1);
+      // post.likes.filter((id) => {
+      //   console.log(id);
+      //   console.log(String(req.userId));
+      // });
     }
+
+    console.log(post.likes);
+
     const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
 
     res.status(200).json(updatedPost);
