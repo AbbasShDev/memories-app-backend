@@ -67,7 +67,6 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
-  console.log(req.userId);
   if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -80,8 +79,6 @@ export const likePost = async (req, res) => {
 
     const index = post.likes.findIndex((id) => id === String(req.userId));
 
-    console.log(post.likes);
-
     if (index === -1) {
       post.likes.push(req.userId);
     } else {
@@ -91,8 +88,6 @@ export const likePost = async (req, res) => {
       //   console.log(String(req.userId));
       // });
     }
-
-    console.log(post.likes);
 
     const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
 
