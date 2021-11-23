@@ -13,7 +13,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Hello to Memories API");
+  res.send("Memories API");
 });
 
 app.use("/posts", postsRoutes);
