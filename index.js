@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import postsRoutes from "./routes/posts.js";
 import usersRoutes from "./routes/users.js";
+import commentsRoutes from "./routes/comments.js";
 import dotenv from "dotenv";
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/posts", postsRoutes);
 app.use("/users", usersRoutes);
+app.use("/comments", commentsRoutes);
 
 const PORT = process.env.PORT || 5000;
 
