@@ -30,8 +30,11 @@ export const getPost = async (req, res) => {
   try {
     const post = await Post.findById(id);
 
-    console.log(post);
-    res.status(200).json(post);
+    const recommendedPosts = await Post.find({
+      tags: { $in: post.tags },
+    });
+
+    res.status(200).json({ post, recommendedPosts });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
