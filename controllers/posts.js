@@ -30,6 +30,7 @@ export const getPost = async (req, res) => {
   try {
     const post = await Post.findById(id);
 
+    console.log(post);
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -135,5 +136,24 @@ export const likePost = async (req, res) => {
     res.status(200).json(updatedPost);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const createPostComment = async (req, res) => {
+  const { comment, name } = req.body;
+  const { id } = req.params;
+
+  const post = await Post.findById(id);
+
+  post.comments.push({
+    name,
+    comment,
+  });
+  try {
+    await post.save();
+
+    res.status(201).json(post);
+  } catch (error) {
+    res.status(409).json({ error: error.message });
   }
 };
